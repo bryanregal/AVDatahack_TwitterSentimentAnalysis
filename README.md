@@ -5,7 +5,7 @@ Analytics Vidhya, Twitter Sentiment Analysis Practice Problem
 The main goal is to utilize NLP and ML to identify the tweets which are hate tweets and which are not. For the complete competition details, see: https://datahack.analyticsvidhya.com/contest/practice-problem-twitter-sentiment-analysis/
 
 ###### 1. Data Preparation
-Without getting too much into the details, the following are the steps I've used to prepare the data for sentiment analysis:
+Without getting too much into the details, following are the steps I've used to prepare the data for sentiment analysis:
 
   1.1 Data Cleaning -- split tokens by white space, removal of tokens which are not encoded in ascii format, removal of punctuations from each token, removal of non-alphanumeric tokens, removal of digits from each token, removal of known stop words, removal of tokens that have a character length ≤ 1 or ≥  30, and word stemming via Porter stemmer
     
