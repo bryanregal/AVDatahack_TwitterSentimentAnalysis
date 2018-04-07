@@ -6,7 +6,7 @@ The main goal is to utilize NLP and ML to identify the tweets which are hate twe
 
 ###### 1. Data Preparation
 Without getting too much into the details, the following are the steps I've used to prepare the data for sentiment analysis:
-  1.1 Data Cleaning
+  1.1 Data Cleaning \n
     1.1.1 split tokens by white space
     1.1.2 Removal of tokens which are not encoded in ascii format
     1.1.3 Removal of punctuations from each token
