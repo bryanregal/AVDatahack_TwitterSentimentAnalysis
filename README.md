@@ -1,2 +1,3 @@
-# AVDatahack_TwitterSentimentAnalysis
-Natural Language Processing and Deep Learning in Python
+# Word Embedding + Convolutional Neural Network (CNN) Model for Twitter Sentiment Analysis
+
+## DESCRIPTION
