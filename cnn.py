@@ -3,7 +3,7 @@
 @author: Bryan R. Balajadia
 @date: 08 April 2018
 Analytics Vidhya Datahack : Twitter Sentiment Analysis
-Algorithm: Convolutional Neural Network (CNN) with Word Embeddings
+Algorithm: Convolutional Neural Network (CNN) with Word Embedding
 """
 
 import pandas
@@ -267,8 +267,9 @@ results = pandas.DataFrame(model.predict(xtest, verbose=0))
 print("writing predictions to a submission file...")
 # write a submission file
 test_df["label"] = results.iloc[:,0]
+test_df["label"] = round(test_df["label"])
 test_df = test_df[["id", "label"]]
-test_df.to_csv(data_path + "/submission.csv", encoding='utf-8',index=False)
+test_df.to_csv(data_path + "/test_predictions.csv", encoding='utf-8',index=False)
 print("...Test set prediction process:COMPLETED")
 
 
