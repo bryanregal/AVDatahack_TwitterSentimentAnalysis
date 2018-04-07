@@ -6,25 +6,17 @@ Algorithm: Deep Learning
 """
 
 import pandas
-import numpy
 import re
-import sys
-
+import string
+import tensorflow as tf
 from collections import Counter
-from sklearn.feature_extraction.text import CountVectorizer
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import stopwords
-import string
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.layers import Dropout
 from keras.callbacks import ModelCheckpoint
-import tensorflow as tf
-
-from numpy import array
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
-from keras.layers import Dense
 from keras.layers import Flatten
 from keras.layers import Embedding
 from keras.layers.convolutional import Conv1D
@@ -62,13 +54,6 @@ def clean_text(txt):
     porter = PorterStemmer()
     tokens = [porter.stem(w) for w in tokens]
     return tokens
-
-def add_tokens_vocab(txt, vocab):
-    """Creating vocabulary containing unique tokens from all texts
-    dependency: clean_text
-    """
-    tokens = clean_text(txt)         
-    vocab.update(tokens)  
 
 def token_to_line(txt, vocab):
     """Clean text and return line of tokens
@@ -111,8 +96,15 @@ def load_vocab(filename):
     file.close()
     return text
 
+def add_tokens_vocab(txt, vocab):
+    """Creating vocabulary containing unique tokens from all texts
+    dependency: clean_text
+    """
+    tokens = clean_text(txt)         
+    vocab.update(tokens)  
+    
 def build_vocab(texts):
-     # Define the vocabulary
+    # define the vocabulary
     vocab = Counter()
     for txt in texts:
         add_tokens_vocab(txt, vocab)   
@@ -135,7 +127,7 @@ def encode_docs(tokenizer, max_length, docs):
     return padded
 
 # define the metrics
-def self_auc_roc(y_true, y_pred):
+def tf_auc_roc(y_true, y_pred):
     # any tensorflow metric
     value, update_op = tf.contrib.metrics.streaming_auc(y_pred, y_true)
 
@@ -151,26 +143,18 @@ def self_auc_roc(y_true, y_pred):
         value = tf.identity(value)
         return value
 
-# define the model
-def define_model(vocab_size, input_length): 
-    # define network
+# define network
+def define_model(vocab_size, max_length): 
     model = Sequential()
     model.add(Embedding(vocab_size, 100, input_length=max_length))
+    model.add(Conv1D(filters=32, kernel_size=8, activation='relu')) 
+    model.add(MaxPooling1D(pool_size=2))
     model.add(Flatten())
     model.add(Dense(10, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
     return model
 
-
-def load_neural_net():
-    # Loads the current model into memory for further processing
-    file_to_load = data_path + "/weights.bestmodel.hdf5"
-    print("Loading "+ file_to_load)
-    inputs_size = self.get_template().shape[1]
-    self.neural_net = self.define_model(inputs_size)
-    self.neural_net.load_weights(self.data_path + "/weights.bestmodel.hdf5")
-    self.neural_net.compile(loss='binary_crossentropy', optimizer='adam', metrics=[self.auc_roc])
-    
+  
 #----------------------
 # MAIN 
 #----------------------
@@ -200,12 +184,12 @@ Xtest = encode_docs(tokenizer, max_length, process_texts(test_df.tweet, vocab = 
 model = define_model(vocab_size, max_length)
 
 # compile network
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=[self_auc_roc]) # summarize defined model
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=[tf_auc_roc]) # summarize defined model
 model.summary()
 
 # checkpoint
 filepath = data_path + "/weights.bestmodel.hdf5"
-checkpoint = ModelCheckpoint(filepath, monitor='val_self_auc_roc', verbose=1, save_best_only=True, mode='max')
+checkpoint = ModelCheckpoint(filepath, monitor='val_tf_auc_roc', verbose=1, save_best_only=True, mode='max')
 callbacks_list = [checkpoint]
 
 # fit network
@@ -214,7 +198,7 @@ model.fit(Xtrain, targets, epochs=10, validation_split=0.10, verbose=2, callback
 
 neural_net = define_model(vocab_size, max_length)
 neural_net.load_weights(data_path + "/weights.bestmodel.hdf5")
-neural_net.compile(loss='binary_crossentropy', optimizer='adam', metrics=[self_auc_roc])
+neural_net.compile(loss='binary_crossentropy', optimizer='adam', metrics=[tf_auc_roc])
 
 results = pandas.DataFrame(neural_net.predict(Xtest, verbose=0))
 
