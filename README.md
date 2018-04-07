@@ -14,6 +14,26 @@ Without getting too much into the details, the following are the steps I've used
 ###### 2. CNN with Embedding Layer
 Word embedding is used while training a CNN. The full neural network model structure with word embedding and convolutional
 layers is given by:
+Defining the neural network model...
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+embedding_3 (Embedding)      (None, 21, 150)           4819800   
+_________________________________________________________________
+conv1d_3 (Conv1D)            (None, 14, 32)            38432     
+_________________________________________________________________
+max_pooling1d_3 (MaxPooling1 (None, 7, 32)             0         
+_________________________________________________________________
+flatten_3 (Flatten)          (None, 224)               0         
+_________________________________________________________________
+dense_5 (Dense)              (None, 30)                6750      
+_________________________________________________________________
+dense_6 (Dense)              (None, 1)                 31        
+=================================================================
+Total params: 4,865,013
+Trainable params: 4,865,013
+Non-trainable params: 0
+_________________________________________________________________
 
 
 
