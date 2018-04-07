@@ -16,6 +16,3 @@ Word embedding is used while training a CNN. The full neural network model struc
 layers is given by:
 ![alt text](https://github.com/BBalajadia/AVDatahack_TwitterSentimentAnalysis/blob/master/Data/nnmodel.png)
 
-###### 3. Model Evaluation
-
-###### 4. Test set Prediction and Leaderboard Result
