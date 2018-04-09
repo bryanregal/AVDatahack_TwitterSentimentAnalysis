@@ -2,7 +2,7 @@
 Analytics Vidhya, Twitter Sentiment Analysis Practice Problem  
 
 ##### OBJECTIVE
-The main goal is to utilize NLP and ML to identify the tweets which are hate tweets and which are not. For the complete competition details, see: https://datahack.analyticsvidhya.com/contest/practice-problem-twitter-sentiment-analysis/
+The objective is to utilize NLP and ML to detect hate speech in tweets. For the complete competition details, see: https://datahack.analyticsvidhya.com/contest/practice-problem-twitter-sentiment-analysis/
 
 ###### 1. Data Preparation
 Without getting too much into the details, following are the steps I've used to prepare the data for sentiment analysis:
